@@ -1,6 +1,7 @@
-import app from '@/main/config/app'
+import { server } from '@/main/config/socketio'
 import env from '@/environment'
 
-app.listen(env.APP.PORT, () => {
-  console.log('Server started on port 3333!')
+server.listen(env.APP.PORT, () => {
+  console.log(`Server running at http://localhost:${env.APP.PORT}`)
+  console.log(`Server is running with ENV_PRODUCTION: ${env.APP.PRODUCTION}`)
 })

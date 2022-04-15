@@ -1,6 +1,5 @@
 node_modules
 .vscode/settings.json
-yarn.lock
 .env
 build
 coverage

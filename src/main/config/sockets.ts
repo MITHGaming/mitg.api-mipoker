@@ -1,11 +1,11 @@
 import { readdirSync } from 'fs'
 import path from 'path'
-import { Server } from 'socket.io'
+import { Socket, Server } from 'socket.io'
 
-export default (io: Server): void => {
+export default (socket: Socket, io: Server): void => {
   readdirSync(path.join(__dirname, '..', 'sockets')).map(async (file) => {
     if (!file.endsWith('.map')) {
-      ;(await import(`../sockets/${file}`)).default(io)
+      ;(await import(`../sockets/${file}`)).default(socket, io)
     }
   })
 }

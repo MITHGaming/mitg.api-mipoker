@@ -3,6 +3,6 @@ dotenv.config()
 
 export default {
   APP: {
-    PORT: process.env.PORT || 3333,
-  },
+    PORT: process.env.PORT || 3333
+  }
 }

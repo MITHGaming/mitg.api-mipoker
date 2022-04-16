@@ -1,7 +1,7 @@
 import { Server, Socket } from 'socket.io'
 import { httpSocketResponse } from '@/presentation/protocols/'
 import Joi from 'joi'
-import { badRequestSocket, noContentSocket } from '../helper'
+import { badRequestSocket, ok } from '../helper'
 
 export const StatusController = (): any => {
   return async (
@@ -16,7 +16,7 @@ export const StatusController = (): any => {
       return callback(badRequestSocket(error.message))
     }
 
-    return callback(noContentSocket())
+    return callback(ok({ message: 'ok' }))
   }
 }
 

@@ -8,7 +8,7 @@ import env from '@/environment'
 export const server = http.createServer(app)
 export const io = new Server(server, {
   cors: {
-    origin: ['https://admin.socket.io'],
+    origin: ['https://admin.socket.io', '*'],
     credentials: true
   }
 })

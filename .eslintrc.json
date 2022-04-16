@@ -1,10 +1,12 @@
 {
-  "extends": "standard-with-typescript",
+  "plugins": ["prettier"],
+  "extends": ["standard-with-typescript", "prettier"],
   "parserOptions": {
     "project": "./tsconfig.json",
     "warnOnUnsupportedTypeScriptVersion": false
   },
   "rules": {
+    "max-len": ["error", { "code": 100 }],
     "node/no-callback-literal": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",

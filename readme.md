@@ -12,6 +12,8 @@ An API made to serve poker sites.
 
   <img src="https://github.com/Varspen/vpe-api/actions/workflows/main.yml/badge.svg">
 
+   <img alt="License" src="https://img.shields.io/github/license/jpedroschmitz/typescript-nextjs-starter?style=flat-square&color=5e17eb&labelColor=000000">
+
 </div>
 
 ## 💻 About the project

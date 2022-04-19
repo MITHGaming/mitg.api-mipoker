@@ -1,4 +1,4 @@
-import Prisma from '@/infra/db/prisma'
+import { GetByEmailRepository } from '@/infra/db/repositories/user/GetByEmail'
 import Joi from 'joi'
 import { EmailNotFoundError } from '../errors'
 import { badRequest, ok, serverError } from '../helper'
@@ -14,11 +14,7 @@ export class GetUserByEmailController implements Controller {
         return badRequest(error)
       }
 
-      const data = await Prisma.user.findUnique({
-        where: {
-          email: value.email
-        }
-      })
+      const data = await GetByEmailRepository(value.email)
 
       if (!data) {
         return badRequest(new EmailNotFoundError())

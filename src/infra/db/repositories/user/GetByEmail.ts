@@ -12,3 +12,5 @@ export const GetByEmailRepository: GetByEmail = async (email: string): Promise<U
 
   return data
 }
+
+export default GetByEmailRepository

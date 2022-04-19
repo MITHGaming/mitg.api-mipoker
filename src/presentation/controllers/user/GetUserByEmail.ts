@@ -1,9 +1,9 @@
-import { GetByEmailRepository } from '@/infra/db/repositories/user/GetByEmail'
 import Joi from 'joi'
-import { EmailNotFoundError } from '../errors'
-import { badRequest, ok, serverError } from '../helper'
-import { HttpResponse } from '../protocols'
-import { Controller } from '../protocols/controller'
+import { GetByEmailRepository } from '@/infra/db/repositories/user/GetByEmail'
+import { EmailNotFoundError } from '@/presentation/errors'
+import { badRequest, ok, serverError } from '@/presentation/helper'
+import { HttpResponse } from '@/presentation/protocols'
+import { Controller } from '@/presentation/protocols/controller'
 
 export class GetUserByEmailController implements Controller {
   async handle(request: GetUserByEmailController.Request): Promise<HttpResponse> {

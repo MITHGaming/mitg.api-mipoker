@@ -1,9 +1,26 @@
+import { Controller } from '@/presentation/protocols/controller'
 import { Request, Response } from 'express'
-import { Server, Socket } from 'socket.io'
 
-export const adaptRouter = (socket: Socket, io: Server) => {
+export const adaptRouter = (
+  controller: Controller,
+  reqType: Array<'body' | 'params' | 'query'>
+) => {
   return async (req: Request, res: Response) => {
-    res.status(200).json({ message: 'Hello World' })
+    let request = {}
+
+    reqType.forEach((type) => {
+      request = { ...request, ...(req[type] || {}) }
+    })
+
+    const httpResponse = await controller.handle(request)
+
+    if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
+      res.status(httpResponse.statusCode).json(httpResponse.body)
+    } else {
+      res.status(httpResponse.statusCode).json({
+        error: httpResponse.body
+      })
+    }
   }
 }
 

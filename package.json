@@ -17,6 +17,9 @@
     "build": "rm -rf dist && tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules src/main/server.ts",
     "dev:debug": "ts-node-dev --inspect=4321 -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/main/server.ts",
+    "migrate": "prisma migrate dev",
+    "pscalesetup": "pscale connect mipoker initial-setup --port 3309",
+    "pscaleshadow": "pscale connect mipoker shadow --port 3310",
     "type-check": "tsc",
     "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\"",
     "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js)\" --write",
@@ -43,6 +46,7 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.3.8",
     "prettier": "^2.6.2",
+    "prisma": "^3.12.0",
     "sucrase": "^3.21.0",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.14.1",
@@ -50,6 +54,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
+    "@prisma/client": "^3.12.0",
     "@socket.io/admin-ui": "^0.2.0",
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",

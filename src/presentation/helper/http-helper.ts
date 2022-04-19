@@ -18,6 +18,11 @@ export const badRequestSocket = (message: string): httpSocketResponseData => ({
   }
 })
 
+export const noContent = (): HttpResponse => ({
+  body: null,
+  statusCode: 204
+})
+
 export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,
   body: error

@@ -1,9 +1,13 @@
 import jwt from 'jsonwebtoken'
 import env from '@/environment'
 
-export const sign = async (payload: any): Promise<string> => {
+type SignProps = {
+  id: string
+}
+
+export const sign = async ({ id }: SignProps): Promise<string> => {
   const secret = env.JWT.SECRET
-  const token = await jwt.sign(payload, secret, {
+  const token = await jwt.sign({ id }, secret, {
     expiresIn: '7d'
   })
 

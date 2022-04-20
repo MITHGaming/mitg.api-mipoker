@@ -1,7 +1,7 @@
 import { BaseError } from './BaseError'
 
-export class EmailAlreadyExists extends BaseError {
+export class EmailAlreadyExistsError extends BaseError {
   constructor() {
-    super(3, 'Email Provided is already using', 'EmailAlreadyExists')
+    super(6, 'Email Provided is already using', 'EmailAlreadyExistsError')
   }
 }

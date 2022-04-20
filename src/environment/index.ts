@@ -10,5 +10,8 @@ export default {
   SOCKET: {
     USER: process.env.SOCKET_USER || 'admin',
     PASS: process.env.SOCKET_PASS || ''
+  },
+  JWT: {
+    SECRET: process.env.JWT_SECRET || 'admin'
   }
 }

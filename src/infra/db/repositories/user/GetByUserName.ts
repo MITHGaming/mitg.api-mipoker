@@ -1,10 +1,12 @@
 import { User } from '@prisma/client'
 import Prisma from '@/infra/db/prisma'
 
-export const GetByIdRepository = async (id: string): Promise<Omit<User, 'password'>> => {
+export const GetByUsernameRepository = async (
+  username: string
+): Promise<Omit<User, 'password'>> => {
   const data = await Prisma.user.findUnique({
     where: {
-      id
+      username
     }
   })
 
@@ -17,4 +19,4 @@ export const GetByIdRepository = async (id: string): Promise<Omit<User, 'passwor
   return data
 }
 
-export default GetByIdRepository
+export default GetByUsernameRepository

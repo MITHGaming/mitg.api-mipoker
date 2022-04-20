@@ -1,5 +1,6 @@
 export * from './ServerError'
 export * from './EmailNotFound'
 export * from './IdNotFound'
-export * from './EmailAlreadyExists'
+export * from './UsernameAlreadyExists'
 export * from './UserNotFound'
+export * from './EmailAlreadyExists'

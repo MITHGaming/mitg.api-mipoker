@@ -33,7 +33,6 @@ export class CreateUserController implements Controller {
 export namespace CreateUserController {
   export type Request = {
     name?: string
-    username: string
     email: string
     emailVerified?: Date
     image?: string
@@ -42,7 +41,6 @@ export namespace CreateUserController {
 
 const CreateUserSchema = Joi.object({
   name: Joi.string(),
-  username: Joi.string().required(),
   email: Joi.string().required().email(),
   emailVerified: Joi.date(),
   image: Joi.string()

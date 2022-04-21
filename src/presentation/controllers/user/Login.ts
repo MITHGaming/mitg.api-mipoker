@@ -34,7 +34,6 @@ export class LoginController implements Controller {
         return badRequest(new LoginInvalidError())
       }
 
-      let tokenToReturn = ''
       const userHasSession = await GetSessionByUserRepository(user.id)
 
       if (userHasSession) {
@@ -43,21 +42,20 @@ export class LoginController implements Controller {
         if (isValidToken instanceof Error) {
           await DeleteSessionRepository(userHasSession.sessionToken)
         } else if (isValidToken) {
-          tokenToReturn = userHasSession.sessionToken
-          return ok({ token: tokenToReturn })
+          return ok({ session: userHasSession })
         }
       }
 
       const token = await sign({ id: user.id })
       const decoded = await decode(token)
 
-      await CreateSessionRepository({
+      const session = await CreateSessionRepository({
         expires: new Date(decoded.payload.exp * 1000),
         userId: user.id,
         sessionToken: token
       })
 
-      return ok({ token: token })
+      return ok({ session: session })
     } catch (error) {
       return serverError(error)
     }

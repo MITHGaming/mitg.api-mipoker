@@ -1,7 +1,5 @@
-import Prisma from '@/infra/db/prisma'
 import { Router } from 'express'
 import { adaptRouter } from '../adapters'
-import type { Prisma as PrismaPkg } from '@prisma/client'
 import {
   CreateUserController,
   GetUserByIdController,
@@ -15,7 +13,8 @@ import {
   CreateSessionController,
   UpdateSessionController,
   DeleteSessionController,
-  CreateVerificationTokenController
+  CreateVerificationTokenController,
+  UseVerificationTokenController
 } from '@/presentation/controllers/next'
 
 const createUserController = new CreateUserController()
@@ -31,6 +30,7 @@ const createSessionController = new CreateSessionController()
 const updateSessionController = new UpdateSessionController()
 const deleteSessionController = new DeleteSessionController()
 const createVerificationTokenController = new CreateVerificationTokenController()
+const useVerificationTokenController = new UseVerificationTokenController()
 
 export default (router: Router): void => {
   router.post('/user/create', adaptRouter(createUserController, ['body']))
@@ -49,21 +49,5 @@ export default (router: Router): void => {
   router.put('/session/:sessionToken?', adaptRouter(updateSessionController, ['body']))
   router.delete('/session/:sessionToken?', adaptRouter(deleteSessionController, ['params']))
   router.post('/verification/create', adaptRouter(createVerificationTokenController, ['body']))
-
-  router.post('/verification/use', async (req, res) => {
-    const { token } = req.body
-
-    try {
-      const verification = await Prisma.verificationToken.delete({
-        where: { identifier_token: token }
-      })
-
-      return res.status(200).send({ ...verification })
-    } catch (error) {
-      if ((error as PrismaPkg.PrismaClientKnownRequestError).code === 'P2025')
-        return res.status(200).send(null)
-
-      throw error
-    }
-  })
+  router.post('/verification/use', adaptRouter(useVerificationTokenController, ['body']))
 }

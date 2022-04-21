@@ -14,7 +14,8 @@ import {
   DeleteAccountController,
   CreateSessionController,
   UpdateSessionController,
-  DeleteSessionController
+  DeleteSessionController,
+  CreateVerificationTokenController
 } from '@/presentation/controllers/next'
 
 const createUserController = new CreateUserController()
@@ -29,6 +30,7 @@ const getSessionAndUserByToken = new GetSessionAndUserController()
 const createSessionController = new CreateSessionController()
 const updateSessionController = new UpdateSessionController()
 const deleteSessionController = new DeleteSessionController()
+const createVerificationTokenController = new CreateVerificationTokenController()
 
 export default (router: Router): void => {
   router.post('/user/create', adaptRouter(createUserController, ['body']))
@@ -46,20 +48,7 @@ export default (router: Router): void => {
   router.post('/session/create', adaptRouter(createSessionController, ['body']))
   router.put('/session/:sessionToken?', adaptRouter(updateSessionController, ['body']))
   router.delete('/session/:sessionToken?', adaptRouter(deleteSessionController, ['params']))
-
-  router.post('/verification/create', async (req, res) => {
-    const { token, identifier, expires } = req.body
-
-    const verification = await Prisma.verificationToken.create({
-      data: {
-        token,
-        identifier,
-        expires
-      }
-    })
-
-    res.status(200).send({ ...verification })
-  })
+  router.post('/verification/create', adaptRouter(createVerificationTokenController, ['body']))
 
   router.post('/verification/use', async (req, res) => {
     const { token } = req.body

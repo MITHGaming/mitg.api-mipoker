@@ -11,27 +11,28 @@ export class CreateUserController implements Controller {
   async handle(request: CreateUserController.Request): Promise<HttpResponse> {
     try {
       const { value, error } = CreateUserSchema.validate(request)
+      const { passwordConfirmation, ...data } = value
 
       if (error) {
         return badRequest(error)
       }
 
-      const emailAlreadyExists = await GetByEmailRepository(value.email)
+      const emailAlreadyExists = await GetByEmailRepository(data.email)
 
       if (emailAlreadyExists) {
         return badRequest(new EmailAlreadyExistsError())
       }
 
-      const usernameAlreadyExists = await GetByUsernameRepository(value.username)
+      const usernameAlreadyExists = await GetByUsernameRepository(data.username)
 
       if (usernameAlreadyExists) {
         return badRequest(new UsernameAlreadyExistsError())
       }
 
-      const passwordHashed = await hashPassword(value.password)
+      const passwordHashed = await hashPassword(data.password)
 
       const user = await CreateUserRepository({
-        ...value,
+        ...data,
         password: passwordHashed
       })
 
@@ -48,6 +49,7 @@ export namespace CreateUserController {
     username: string
     email: string
     password: string
+    passwordConfirmation: string
     emailVerified?: Date
     image?: string
   }
@@ -58,6 +60,7 @@ const CreateUserSchema = Joi.object({
   username: Joi.string().min(3).max(255).required(),
   email: Joi.string().email().max(120).min(3).required(),
   password: Joi.string().min(3).max(255).required(),
+  passwordConfirmation: Joi.string().min(3).max(255).required().equal(Joi.ref('password')),
   emailVerified: Joi.date(),
   image: Joi.string()
 })

@@ -1,7 +1,6 @@
 export * from './GetByEmail'
 export * from './GetById'
 export * from './CreateUser'
-export * from './GetByUserName'
 export * from './GetByEmailWithPassword'
 export * from './UpdateUser'
 export * from './DeleteUser'

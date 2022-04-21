@@ -1,26 +1,23 @@
 import Joi from 'joi'
-import { GetByEmailRepository } from '@/infra/db/repositories/user/GetByEmail'
-import { EmailNotFoundError } from '@/presentation/errors'
+
 import { badRequest, ok, serverError } from '@/presentation/helper'
 import { HttpResponse } from '@/presentation/protocols'
 import { Controller } from '@/presentation/protocols/controller'
+import { GetByEmailRepository } from '@/infra/db/repositories/user'
 
 export class GetUserByEmailController implements Controller {
   async handle(request: GetUserByEmailController.Request): Promise<HttpResponse> {
     try {
       const { value, error } = GetUserByEmailSchema.validate(request)
+      const data: GetUserByEmailController.Request = value
 
       if (error) {
         return badRequest(error)
       }
 
-      const data = await GetByEmailRepository(value.email)
+      const user = await GetByEmailRepository(data.email)
 
-      if (!data) {
-        return badRequest(new EmailNotFoundError())
-      }
-
-      return ok(data)
+      return ok(user)
     } catch (error) {
       return serverError(error)
     }
@@ -34,5 +31,5 @@ export namespace GetUserByEmailController {
 }
 
 const GetUserByEmailSchema = Joi.object({
-  email: Joi.string().required().email()
+  email: Joi.string().required()
 })

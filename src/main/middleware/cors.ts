@@ -1,8 +1,16 @@
-import { Request, Response, NextFunction } from 'express'
+import cors from 'cors'
 
-export const cors = (req: Request, res: Response, next: NextFunction): void => {
-  res.set('access-control-allow-origin', '*')
-  res.set('access-control-allow-methods', '*')
-  res.set('access-control-allow-headers', '*')
-  next()
-}
+const whiteList = ['http://localhost:3000']
+
+export const corsInternal = cors({
+  origin: function (origin, callback) {
+    if (whiteList.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept'],
+  credentials: true,
+  exposedHeaders: ['Authorization']
+})

@@ -18,6 +18,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules src/main/server.ts",
     "dev:debug": "ts-node-dev --inspect=4321 -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/main/server.ts",
     "migrate": "prisma migrate dev",
+    "prisma-reset": "prisma migrate reset",
     "pscalesetup": "pscale connect mipoker initial-setup --port 3309",
     "pscaleshadow": "pscale connect mipoker shadow --port 3310",
     "type-check": "tsc",

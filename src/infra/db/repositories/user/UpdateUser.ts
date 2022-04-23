@@ -3,7 +3,7 @@ import Prisma from '@/infra/db/prisma'
 
 export const UpdateUserRepository = async (
   id: string,
-  data: Omit<User, 'id' | 'password' | 'username'>
+  data: Omit<User, 'id' | 'password' | 'username' | 'roleId'>
 ): Promise<Omit<User, 'password'>> => {
   const result = await Prisma.user.update({
     where: {

@@ -5,7 +5,7 @@ import { TokenNotProvidedError, UnauthorizedError, UserNotFoundError } from '@/p
 import { badRequest, serverError } from '@/presentation/helper'
 
 export class AuthMiddleware implements Middleware {
-  constructor(private readonly role: 'user' | 'moderator' | 'admin') {}
+  constructor(private readonly routeRole: { id: number }) {}
 
   async handle({ accessToken }: AuthMiddleware.Request): Promise<HttpResponse> {
     try {
@@ -27,7 +27,7 @@ export class AuthMiddleware implements Middleware {
         return badRequest(new UserNotFoundError())
       }
 
-      if (this.role !== user.role.name) {
+      if (!(user.role.id === this.routeRole.id) && !(user.role.id >= this.routeRole.id)) {
         return badRequest(new UnauthorizedError())
       }
 

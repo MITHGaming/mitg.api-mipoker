@@ -2,7 +2,7 @@ import { GetByEmailWithRoleRepository } from '@/infra/db/repositories/user'
 import { verify } from '@/infra/jwt'
 import { Middleware, HttpResponse } from '@/presentation/protocols'
 import { TokenNotProvidedError, UnauthorizedError, UserNotFoundError } from '@/presentation/errors'
-import { badRequest, serverError } from '@/presentation/helper'
+import { badRequest, serverError, ok } from '@/presentation/helper'
 
 export class AuthMiddleware implements Middleware {
   constructor(private readonly routeRole: { id: number }) {}
@@ -31,13 +31,7 @@ export class AuthMiddleware implements Middleware {
         return badRequest(new UnauthorizedError())
       }
 
-      return {
-        statusCode: 200,
-        body: {
-          user,
-          accessToken
-        }
-      }
+      return ok({ user, accessToken })
     } catch (error) {
       return serverError(error)
     }

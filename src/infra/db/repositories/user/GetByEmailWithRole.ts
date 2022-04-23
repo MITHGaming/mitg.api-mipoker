@@ -5,10 +5,10 @@ interface UserWithRole extends User {
   role: Role
 }
 
-export const GetByEmailRepository = async (
+export const GetByEmailWithRoleRepository = async (
   email: string
 ): Promise<Omit<UserWithRole, 'password'>> => {
-  const data = await Prisma.user.findUnique({
+  const data: UserWithRole = await Prisma.user.findUnique({
     where: {
       email
     },
@@ -26,4 +26,4 @@ export const GetByEmailRepository = async (
   return data
 }
 
-export default GetByEmailRepository
+export default GetByEmailWithRoleRepository

@@ -49,12 +49,22 @@ model User {
   username      String?
   email         String    @unique
   emailVerified DateTime? @map("email_verified")
+  roleId        String    @map("role_id")
   image         String?
   password      String?
   sessions      Session[]
   Account       Account[]
+  role          Role      @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@map("users")
+}
+
+model Role {
+  id   String @id @default(cuid())
+  name String @unique
+
+  User User[]
+  @@map("roles")
 }
 
 model VerificationToken {
